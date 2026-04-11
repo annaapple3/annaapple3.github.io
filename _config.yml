@@ -326,6 +326,8 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
+      sidebar:
+        nav: "sidebar-category"
       comments: # true
       share: true
       related: true
