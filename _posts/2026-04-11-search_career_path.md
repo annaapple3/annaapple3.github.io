@@ -1,6 +1,6 @@
 ---
 title: "커리어패스 탐색"
-layoout: posts
+layoout: single
 date: 2026-04-11
 categories: [document]
 ---
