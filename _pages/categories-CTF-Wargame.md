@@ -1,6 +1,6 @@
 ---
 title: "CTF/Wargame"
 layout: category
-taxonomy: dev
+taxonomy: CTF-Wargame
 permalink: /categories/CTF-Wargame/
 ---
