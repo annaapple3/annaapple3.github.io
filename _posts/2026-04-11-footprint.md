@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "지금까지 활동 정리하기"
 ---
 
