@@ -1,6 +1,6 @@
 ---
 title: "지금까지 활동 정리하기"
-layout: posts
+layout: single
 date: 2026-04-11
 categories: [document]
 ---
