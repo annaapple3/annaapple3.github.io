@@ -1,5 +1,6 @@
 ---
 title: "커리어패스 탐색"
+layoout: posts
 date: 2026-04-11
 categories: [블로그/기술문서]
 ---
