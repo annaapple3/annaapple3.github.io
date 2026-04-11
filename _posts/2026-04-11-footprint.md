@@ -2,7 +2,7 @@
 title: "지금까지 활동 정리하기"
 layout: posts
 date: 2026-04-11
-categories: [블로그/기술문서]
+categories: [document]
 ---
 
 ## 개발
