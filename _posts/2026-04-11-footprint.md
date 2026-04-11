@@ -1,11 +1,8 @@
 ---
-title: "첫 글"
+title: "지금까지 활동 정리하기"
 date: 2026-04-11
-categories: [blog]
-tags: [jekyll]
+categories: [블로그/기술문서]
 ---
-
-# "지금까지 활동 정리하기"
 
 ## 개발
 - 게임 개발
