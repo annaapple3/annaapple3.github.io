@@ -106,6 +106,53 @@ Black-box와 White-box의 중간 형태입니다.
 
 ---
 
+#### 3. 계측(Instrumentation)
+
+계측은 프로그램 실행 중 내부 동작 정보를 수집하기 위해 코드를 삽입하거나 수정하는 기술입니다.
+특히 Gray-box Fuzzing의 핵심 기술로 사용됩니다.
+
+퍼저는 계측을 통해 어떤 코드가 실행되었는지, 어떤 조건문을 통과했는지, 어느 함수가 호출되었는지, 어디서 크래시가 발생했는지 등의 정보를 확인합니다.
+
+ex)다음 코드가 있습니다.
+if(input[0] == 'A'){
+    if(input[1] == 'B'){
+        crash();
+    }
+}
+
+랜덤 퍼징만 사용하면 "AB"를 찾기 어렵지만 계측을 사용하면: <br>
+"A" → 첫 번째 조건 통과<br>
+"AB" → 두 번째 조건 통과
+라는 실행 정보를 확인할 수 있습니다.
+
+퍼저는 이를 바탕으로 “A로 시작하는 입력이 더 깊은 코드에 도달한다”고 판단하여 해당 입력을 집중적으로 변형합니다.
+
+즉, 계측은 단순 랜덤 테스트를 효율적인 지능형 퍼징으로 발전시키는 핵심 기술입니다.
+
+계측의 종류:
+- Compile-time Instrumentation: 컴파일 과정에서 코드 삽입
+- Binary Instrumentation:	바이너리에 직접 계측 삽입
+- Static Instrumentation:	실행 전 바이너리 수정
+- Dynamic Instrumentation:	실행 중 실시간 계측
+
+대표 계측 기술:
+- Coverage Tracking
+:어떤 코드가 실행되었는지 추적합니다.
+
+- Edge Coverage
+:분기 간 이동 경로를 추적합니다.
+
+- Sanitizer
+:메모리 오류를 탐지합니다.
+대표적으로 ASan(메모리 오류 탐지), UBSan(정의되지 않은 동작 탐지), MSan(초기화되지 않은 메모리 사용 탐지)이 있습니다.
+
+탐지 가능한 오류:
+- Buffer Overflow
+- Use After Free
+- Integer Overflow
+
+---
+
 #### 3. 주요 퍼저(Fuzzer)
 ##### 1) AFL (American Fuzzy Lop)
 
@@ -125,7 +172,7 @@ Black-box와 White-box의 중간 형태입니다.
 
 2) AFL++
 
-기존 AFL을 개선한 확장 버전이다.
+기존 AFL을 개선한 확장 버전입다.
 
 특징:
 - 더 높은 성능
