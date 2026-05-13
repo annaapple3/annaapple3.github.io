@@ -5,8 +5,6 @@ date: 2026-05-13
 categories: [paper-conference]
 ---
 
-# 브라우저 확장 프로그램 클릭재킹 분석
-
 [DEF CON 33 - 브라우저 확장 프로그램 클릭재킹: 단 한 번의 클릭으로 신용카드 정보가 유출됩니다 - 마렉 토트](https://www.youtube.com/watch?v=Gu4IoDXNqoU)
 
 ## 주제 선정 이유
