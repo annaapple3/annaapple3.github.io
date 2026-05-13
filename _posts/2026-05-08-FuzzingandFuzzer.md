@@ -155,6 +155,111 @@ if(input[0] == 'A'){
 
 ---
 
+#### 4. 커버러지(Coverage)
+1. Coverage Tracking
+
+Coverage Tracking은 프로그램 실행 중 어떤 코드가 실행되었는지 추적하는 기술입니다.
+
+퍼저는 입력값을 실행한 뒤<br>
+새로운 코드가 실행되었는지<br>
+이전에 도달하지 못한 영역에 접근했는지<br>
+를 확인합니다.
+
+새로운 코드 영역이 발견되면
+해당 입력을 저장(seed) 후
+추가 변형(Mutation) 수행을 진행합니다.
+
+즉, 더 많은 코드를 실행하는 입력”을 우선적으로 발전시키는 방식을 말합니다.
+
+Coverage Tracking의 동작 예시
+
+ex)
+if(input[0] == 'A'){
+    printf("A");
+}
+위와 같은 코드에서
+퍼저가 "B"를 입력하면 조건문 미통과<br>
+
+퍼저가 "A"를 입력하면 새로운 코드 영역 실행<br>
+
+퍼저는 "A" 입력이 더 깊은 코드에 도달했다고 판단하고 "A" 기반 입력을 집중적으로 변형합니다.
+
+ex)
+- "AB"
+- "A123"
+- "AAAA"
+  
+Coverage Tracking의 목적
+| 목적        | 설명             |
+| --------- | -------------- |
+| 새로운 코드 탐색 | 실행되지 않은 코드 발견  |
+| 입력 최적화    | 의미 있는 입력 우선 변형 |
+| 취약점 탐지 향상 | 깊은 코드 영역 접근    |
+| 효율 향상     | 무의미한 입력 감소     |
+
+2. Edge Coverage
+
+Edge Coverage는 코드 블록 간 이동 경로(Edge)를 추적하는 방식입니다.
+Coverage Tracking보다 더 정밀한 방식이며, 현대 Gray-box Fuzzer에서 가장 널리 사용됩니다.
+
+대표적으로 AFL, AFL++가 있습니다.
+
+- Edge란?
+Edge는 하나의 Basic Block에서 다른 Block으로 이동하는 연결을 의미합니다.
+
+ex)
+```cpp
+if(x > 10){
+    foo();
+}else{
+    bar();
+}
+```
+실행 흐름:
+Block1 → Block2
+Block1 → Block3
+
+여기서<br>
+1 → 2<br>
+1 → 3<br>
+이 각각 Edge입니다.
+
+- 왜 Edge Coverage가 중요한가?
+
+Basic Block Coverage는 어떤 코드가 실행되었는가만 확인하지만 Edge Coverage는 어떤 경로로 실행되었는가 까지 추적합니다.
+그 덕에 실행 흐름 자체를 분석할 수 있고,
+조건문 분기를 더 정확히 탐색할 수 있습니다.
+
+Edge Coverage 동작 예시
+```cpp
+if(a == 'A'){
+    if(b == 'B'){
+        crash();
+    }
+}
+```
+입력 "A":<br>
+Block1 → Block2
+
+입력 "AB":<br>
+Block1 → Block2 → Block3
+
+퍼저는 새로운 Edge가 발견되었다고 판단하고 "AB" 계열 입력을 계속 변형합니다.
+이 과정을 반복하면서 더 깊은 코드 영역을 탐색하게 됩니다.
+
+- Coverage Tracking과 Edge Coverage의 차이
+  | 구분       | Coverage Tracking | Edge Coverage |
+  | -------- | ----------------- | ------------- |
+  | 추적 대상    | 실행된 코드            | 코드 간 이동 경로    |
+  | 정밀도      | 상대적으로 낮음          | 높음            |
+  | 실행 흐름 분석 | 제한적               | 가능            |
+  | 분기 추적    | 단순                | 정밀            |
+  | 대표 사용    | 기본 Coverage 분석    | AFL/AFL++     |
+  | 목적       | 새로운 코드 발견         | 새로운 경로 발견     |
+
+
+---
+
 #### 4. 세니타이저(Sanitizer)의 종류
 ##### 1. ASan (AddressSanitizer)
 메모리 오류를 탐지하는 Sanitizer입니다.
