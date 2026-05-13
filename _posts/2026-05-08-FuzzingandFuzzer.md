@@ -155,7 +155,123 @@ if(input[0] == 'A'){
 
 ---
 
-#### 4. 주요 퍼저(Fuzzer)
+#### 4. 세니타이저(Sanitizer)의 종류
+##### 1. ASan (AddressSanitizer)
+메모리 오류를 탐지하는 Sanitizer입니다.
+
+주요 탐지 대상:
+- Buffer Overflow
+- Heap Overflow
+- Stack Overflow
+- Use After Free
+- Double Free
+- Out-of-bounds Access
+
+ex)
+```cpp
+#include <stdio.h>
+
+int main() {
+    int arr[3];
+    arr[5] = 10;
+    return 0;
+}
+```
+위 코드는 배열 범위를 초과해서 접근합니다.
+
+ASan으로 실행하면 <br>
+어느 줄에서 오류가 발생했는지<br>
+어떤 메모리를 잘못 접근했는지<br>
+Stack/Heap 정보<br>
+등을 상세하게 출력합니다.
+
+- 특징
+| 항목       | 설명               |
+| -------- | ---------------- |
+| 목적       | 메모리 오류 탐지        |
+| 속도       | 비교적 빠름           |
+| 퍼징 사용 빈도 | 매우 높음            |
+| 대표 활용    | AFL++, LibFuzzer |
+
+##### 2. UBSan (UndefinedBehaviorSanitizer)
+
+정의되지 않은 동작을 탐지하는 Sanitizer입니다.
+
+C/C++에는 결과가 정의되지 않은 동작들이 존재합니다.
+
+이런 동작은<br>
+프로그램 오동작<br>
+보안 취약점<br>
+예기치 않은 결과<br>
+를 발생시킬 수 있습니다.
+
+주요 탐지 대상
+- Integer Overflow
+- Null Pointer Dereference
+- Misaligned Pointer
+- Invalid Shift
+- Divide By Zero
+
+ex)
+```cpp
+int x = 2147483647;
+x = x + 1;
+```
+위 코드에서 정수 오버플로우가 발생합니다.
+UBSan은 이런 위험한 동작을 탐지합니다.
+
+특징
+| 항목    | 설명               |
+| ----- | ---------------- |
+| 목적    | 정의되지 않은 동작 탐지    |
+| 탐지 범위 | 논리 오류 포함         |
+| 속도    | ASan보다 가벼운 경우 많음 |
+| 활용    | 안정성 검사           |
+
+
+##### 3. MSan (MemorySanitizer)
+초기화되지 않은 메모리 사용을 탐지하는 Sanitizer이다.
+
+즉, 값이 없는 메모리를 읽는 문제를 탐지합니다.
+
+ex)
+```cpp
+#include <stdio.h>
+
+int main() {
+    int x;
+    printf("%d\n", x);
+}
+```
+코드에서 보면 x는 초기화되지 않았다.
+MSan은 이런 문제를 탐지합니다.
+
+특징
+| 항목     | 설명              |
+| ------ | --------------- |
+| 목적     | 초기화되지 않은 메모리 탐지 |
+| 탐지 정확도 | 매우 높음           |
+| 단점     | 속도가 느림          |
+| 사용 환경  | 디버깅/보안 분석       |
+
+- Sanitizer 비교
+| 종류    | 탐지 대상        | 대표 오류              |
+| ----- | ------------ | ------------------ |
+| ASan  | 메모리 접근 오류    | Buffer Overflow    |
+| UBSan | 정의되지 않은 동작   | Integer Overflow   |
+| MSan  | 초기화되지 않은 메모리 | Uninitialized Read |
+
+퍼저와 Sanitizer와 함께 사용하면
+메모리 손상,
+위험한 연산,
+숨겨진 버그
+까지 발견할 수 있어 크래시가 발생하지 않아도 취약점을 탐지할 수 있습니다.
+<br>
+그래서 현대 퍼징에서는 AFL++, LibFuzzer, honggfuzz 등이 Sanitizer와 함께 자주 사용됩니다.
+
+---
+
+#### 5. 주요 퍼저(Fuzzer)
 ##### 1) AFL (American Fuzzy Lop)
 
 가장 유명한 Gray-box 기반 퍼저 중 하나입니다.
