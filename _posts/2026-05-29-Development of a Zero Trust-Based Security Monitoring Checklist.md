@@ -5,6 +5,7 @@ date: 2026-05-29
 categories: [paper-conference]
 ---
 <br>
+[Development of a Zero Trust-Based Security Monitoring Checklist](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003137455)
 
 ### 1. 주제 선정 이유
 
